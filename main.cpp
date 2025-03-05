@@ -4,8 +4,8 @@ int main(int argc, char* argv[]) {
 
     try {
         std::vector<Obsegment> masks;
-        const std::string input_model_path{ "D:/sam2/ultralytics-main/ultralytics-main/model/danjuan-seg/best_n_openvino_model/best_n.xml"};
-        const std::string input_image_path{"D:/sam2/ultralytics-main/ultralytics-main/model/danjuan-seg/b10aa679ca73a31c1a5e2225bb3ffdd.png"};
+        const std::string input_model_path{ "best_n.xml"};
+        const std::string input_image_path{"b10aa679ca73a31c1a5e2225bb3ffdd.png"};
         Config config = { 0.2,0.4,0.4,640,640, input_model_path };
         
         cv::Mat img = cv::imread(input_image_path);
@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
             masks = yolomodel.get_mask();
             auto end = std::chrono::system_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.0;
-            std::cout << "Ö´ÐÐ×ÜÊ±¼äÊ±¼ä: " << duration << " ºÁÃë" << std::endl;
+            std::cout << "Ö´ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ê±ï¿½ï¿½: " << duration << " ï¿½ï¿½ï¿½ï¿½" << std::endl;
         }
         for (int i = 0;i < masks.size();++i)
         {

@@ -5,88 +5,88 @@
 
 
 
-//const std::vector<std::string> coconame = { "person",
-//        "bicycle",
-//        "car",
-//        "motorcycle",
-//        "airplane",
-//        "bus",
-//        "train",
-//        "truck",
-//        "boat",
-//        "traffic light",
-//        "fire hydrant",
-//        "stop sign",
-//        "parking meter",
-//        "bench",
-//        "bird",
-//        "cat",
-//        "dog",
-//        "horse",
-//        "sheep",
-//        "cow",
-//        "elephant",
-//        "bear",
-//        "zebra",
-//        "giraffe",
-//        "backpack",
-//        "umbrella",
-//        "handbag",
-//        "tie",
-//        "suitcase",
-//        "frisbee",
-//        "skis",
-//        "snowboard",
-//        "sports ball",
-//        "kite",
-//        "baseball bat",
-//        "baseball glove",
-//        "skateboard",
-//        "surfboard",
-//        "tennis racket",
-//        "bottle",
-//        "wine glass",
-//        "cup",
-//        "fork",
-//        "knife",
-//        "spoon",
-//        "bowl",
-//        "banana",
-//        "apple",
-//        "sandwich",
-//        "orange",
-//        "broccoli",
-//        "carrot",
-//        "hot dog",
-//        "pizza",
-//        "donut",
-//        "cake",
-//        "chair",
-//        "couch",
-//        "potted plant",
-//        "bed",
-//        "dining table",
-//        "toilet",
-//        "tv",
-//        "laptop",
-//        "mouse",
-//        "remote",
-//        "keyboard",
-//        "cell phone",
-//        "microwave",
-//        "oven",
-//        "toaster",
-//        "sink",
-//        "refrigerator",
-//        "book",
-//        "clock",
-//        "vase",
-//        "scissors",
-//        "teddy bear",
-//        "hair drier",
-//        "toothbrush" };
+const std::vector<std::string> coconame = { "person",
+       "bicycle",
+       "car",
+       "motorcycle",
+       "airplane",
+       "bus",
+       "train",
+       "truck",
+       "boat",
+       "traffic light",
+       "fire hydrant",
+       "stop sign",
+       "parking meter",
+       "bench",
+       "bird",
+       "cat",
+       "dog",
+       "horse",
+       "sheep",
+       "cow",
+       "elephant",
+       "bear",
+       "zebra",
+       "giraffe",
+       "backpack",
+       "umbrella",
+       "handbag",
+       "tie",
+       "suitcase",
+       "frisbee",
+       "skis",
+       "snowboard",
+       "sports ball",
+       "kite",
+       "baseball bat",
+       "baseball glove",
+       "skateboard",
+       "surfboard",
+       "tennis racket",
+       "bottle",
+       "wine glass",
+       "cup",
+       "fork",
+       "knife",
+       "spoon",
+       "bowl",
+       "banana",
+       "apple",
+       "sandwich",
+       "orange",
+       "broccoli",
+       "carrot",
+       "hot dog",
+       "pizza",
+       "donut",
+       "cake",
+       "chair",
+       "couch",
+       "potted plant",
+       "bed",
+       "dining table",
+       "toilet",
+       "tv",
+       "laptop",
+       "mouse",
+       "remote",
+       "keyboard",
+       "cell phone",
+       "microwave",
+       "oven",
+       "toaster",
+       "sink",
+       "refrigerator",
+       "book",
+       "clock",
+       "vase",
+       "scissors",
+       "teddy bear",
+       "hair drier",
+       "toothbrush" };
 
-const std::vector<std::string> coconame = {"danjuan"};
+// const std::vector<std::string> coconame = {"danjuan"};
 cv::Mat letterbox(const cv::Mat& source)
 {
     int col = source.cols;
@@ -129,7 +129,7 @@ void YOLOV8::detect(cv::Mat& frame) {
     this->postprocess_img(frame, detections, masks, output_shape_dectect, output_shape_mask);
     auto end_infer = std::chrono::system_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_infer - start_infer).count() / 1000.0;
-    std::cout << "ºó´¦ÀíÊ±¼ä: " << duration << " ºÁÃë" << std::endl;
+    std::cout << "ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½: " << duration << " ï¿½ï¿½ï¿½ï¿½" << std::endl;
     
 
 }
@@ -145,7 +145,7 @@ void YOLOV8::initialmodel() {
     //ppp.input().preprocess().convert_element_type(ov::element::f16).convert_color(ov::preprocess::ColorFormat::RGB).scale({ 255, 255, 255 });// .scale({ 112, 112, 112 });
     //ppp.input().model().set_layout("NCHW");
     //for (size_t i = 0; i < model->outputs().size(); ++i) {
-    //    ppp.output(i).tensor().set_element_type(ov::element::f32);  // Ö±½ÓÁ´Ê½µ÷ÓÃ£¬±ÜÃâ¿½±´
+    //    ppp.output(i).tensor().set_element_type(ov::element::f32);  // Ö±ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½â¿½ï¿½ï¿½
     //}
     //model = ppp.build();
     this->compiled_model = core.compile_model(this->onnx_path, "CPU");
@@ -194,13 +194,13 @@ void YOLOV8::preprocess_img(cv::Mat& frame) {
     infer_request.set_input_tensor(input_tensor);
     auto end_img = std::chrono::system_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_img - start_img).count() / 1000.0;
-    std::cout << "Ç°´¦ÀíÊ±¼ä: " << duration << " ºÁÃë" << std::endl;
+    std::cout << "Ç°ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½: " << duration << " ï¿½ï¿½ï¿½ï¿½" << std::endl;
 
     auto start_infer = std::chrono::system_clock::now();
-    infer_request.infer();//ÍÆÀí
+    infer_request.infer();//ï¿½ï¿½ï¿½ï¿½
     auto end_infer = std::chrono::system_clock::now();
     auto duration1 = std::chrono::duration_cast<std::chrono::microseconds>(end_infer - start_infer).count() / 1000.0;
-    std::cout << "Ä£ÐÍÍÆÀíÊ±¼ä: " << duration1 << " ºÁÃë" << std::endl;
+    std::cout << "Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½: " << duration1 << " ï¿½ï¿½ï¿½ï¿½" << std::endl;
 }
 
 
