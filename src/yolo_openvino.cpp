@@ -120,16 +120,23 @@ void YOLOV8::postprocess_img(cv::Mat& frame, float* detections, float* mask, ov:
     }
     std::vector<int> indices;
     cv::dnn::NMSBoxes(boxes, class_scores, score_threshold, nms_threshold, indices);
-    cv::Mat rgb_mask = cv::Mat::zeros(this->Origin_img_size, this->Origin_img_type);
-    cv::Mat masked_img;
-    cv::RNG rng;
+    //cv::Mat rgb_mask = cv::Mat::zeros(this->Origin_img_size, this->Origin_img_type);
+    //cv::Mat masked_img;
+    //cv::RNG rng;
     for (auto index = indices.begin();index != indices.end();++index)
     {
         int class_id = *index;
 
         cv::Mat m = mask_confs[*index] * proto;
-        for (int col = 0; col < m.cols; col++) {
+        /*for (int col = 0; col < m.cols; col++) {
             m.at<float>(0, col) = sigmoid_function(m.at<float>(0, col));
+        }*/
+        if (m.isContinuous() && m.type() == CV_32F) {
+            float* ptr = m.ptr<float>(0);  
+            const int cols = m.cols;
+            for (int col = 0; col < cols; ++col) {
+                ptr[col] = sigmoid_function(ptr[col]);
+            }
         }
         cv::Mat m1 = m.reshape(1, 160); // 1x25600 -> 160x160
         int x1 = std::max(0, boxes[*index].x);
@@ -144,7 +151,7 @@ void YOLOV8::postprocess_img(cv::Mat& frame, float* detections, float* mask, ov:
         cv::Mat rm, det_mask;
         cv::resize(mask_roi, rm, cv::Size(x2 - x1, y2 - y1));
 
-        for (int r = 0; r < rm.rows; r++) {
+      /*  for (int r = 0; r < rm.rows; r++) {
             for (int c = 0; c < rm.cols; c++) {
                 float pv = rm.at<float>(r, c);
                 if (pv > 0.5) {
@@ -154,7 +161,23 @@ void YOLOV8::postprocess_img(cv::Mat& frame, float* detections, float* mask, ov:
                     rm.at<float>(r, c) = 0.0;
                 }
             }
+        }*/
+        if (rm.isContinuous() && rm.type() == CV_32F) {
+            float* p = rm.ptr<float>(0);
+            const int total = rm.rows * rm.cols;
+            for (int i = 0; i < total; ++i) {
+                p[i] = (p[i] > 0.5f) ? 255.0f : 0.0f;
+            }
         }
+       /* cv::parallel_for_(cv::Range(0, rm.rows), [&](const cv::Range& range) {
+            for (int r = range.start; r < range.end; ++r) {
+                float* p = rm.ptr<float>(r);
+                for (int c = 0; c < rm.cols; ++c) {
+                    p[c] = p[c] > 0.5f ? 255.0f : 0.0f;
+                }
+            }
+            });*/
+
         rm.convertTo(det_mask, CV_8UC1);
         if ((y1 + det_mask.rows) >= Origin_img_size.height) {
             y2 = Origin_img_size.height - 1;
