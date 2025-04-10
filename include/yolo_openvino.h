@@ -18,11 +18,19 @@ struct Config {
 	std::string onnx_path;
 };
 
-struct Obsegment{
-	cv::Rect box;
-	int Class_id;
-	float Score;
-	cv::Mat Mask;
+struct pparam_struct {
+	float ratio ;
+	float dw;
+	float dh;
+	float height;
+	float width;
+};
+
+struct Object {
+	cv::Rect_<float> rect;
+	int              label = 0;
+	float            prob = 0.0;
+	cv::Mat          boxMask;
 };
 
 
@@ -31,21 +39,18 @@ public:
 	YOLOV8(Config config);
 	~YOLOV8();
 	void detect(cv::Mat& frame);
-	std::vector<Obsegment> get_mask();
+	std::vector<Object> get_object();
 
 private:
-	cv::Size Origin_img_size;
-	int Origin_img_type;
+	const std::vector<std::string> coconame = { "danjuan","huai_danjuan" };
+	pparam_struct pparam;
 	float confThreshold;
 	float nmsThreshold;
 	float scoreThreshold;
 	int inpWidth;
 	int inpHeight;
-	float rxy;   // the width ratio of original image and resized image
-	std::vector<Obsegment> Obsegments;
-
+	std::vector<Object> objs;
 	std::string onnx_path;
-
 	ov::Tensor input_tensor;
 	ov::InferRequest infer_request;
 	ov::CompiledModel compiled_model;
